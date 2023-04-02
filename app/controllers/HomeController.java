@@ -1,11 +1,15 @@
 package controllers;
 
+import models.Person;
 import models.Planet;
+import models.Universe;
 import play.libs.Json;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
 import services.StartWarsClient;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -32,10 +36,20 @@ public class HomeController extends Controller {
     }
 
     public CompletionStage<Result> firstPlanet() {
-        return this.client.getFirstPlanet().thenApply(jsonPlanet -> {
-            Planet planet = Json.fromJson(jsonPlanet, Planet.class);
-            return ok(planet.toString());
-        });
+        return this.client.getFirstPlanet()
+                          .thenApply(jsonPlanet -> {
+                              Planet planet = Json.fromJson(jsonPlanet, Planet.class);
+                              return ok(planet.toString());
+                          });
+    }
+
+    public CompletionStage<Result> planet(String id) {
+        return this.client.getPlanet(id)
+                          .thenApply(jsonPlanet -> {
+                              Planet planet = Json.fromJson(jsonPlanet, Planet.class);
+                              List<Person> people = client.getPeople(planet.getResidents());
+                              return ok(new Universe(planet, people).toString());
+                          });
     }
 
 }

@@ -13,7 +13,6 @@ import static play.test.Helpers.GET;
 import static play.test.Helpers.route;
 
 public class HomeControllerTest extends WithApplication {
-
     @Override
     protected Application provideApplication() {
         return new GuiceApplicationBuilder().build();
@@ -21,9 +20,16 @@ public class HomeControllerTest extends WithApplication {
 
     @Test
     public void testIndex() {
-        Http.RequestBuilder request = new Http.RequestBuilder()
-                .method(GET)
-                .uri("/");
+        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
+                                                               .uri("/");
+        Result result = route(app, request);
+        assertEquals(OK, result.status());
+    }
+
+    @Test
+    public void testPlanet() {
+        Http.RequestBuilder request = new Http.RequestBuilder().method(GET)
+                                                               .uri("/planets/2");
 
         Result result = route(app, request);
         assertEquals(OK, result.status());

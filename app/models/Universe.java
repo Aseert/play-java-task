@@ -4,23 +4,16 @@ import java.util.List;
 
 public class Universe {
 
-    private Planet planet;
-    // TODO: add Person type and use it instead of Object here
-    private List<Object> people;
+    private final Planet planet;
+    private final List<Person> people;
 
-    public Planet getPlanet() {
-        return planet;
-    }
-
-    public void setPlanet(Planet planet) {
+    public Universe(Planet planet, List<Person> people) {
         this.planet = planet;
+        this.people = people;
     }
 
     @Override
     public String toString() {
-        return "Universe{" +
-                "planet=" + planet +
-                ", people=" + people +
-                '}';
+        return "Universe{" + "planet=" + planet + ", people=" + people + '}';
     }
 }
